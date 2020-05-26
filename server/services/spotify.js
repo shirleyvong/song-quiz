@@ -72,10 +72,13 @@ const getAlbumsByIds = async (ids) => {
 const getAlbumIdsByArtist = async (artistId) => {
   await setAccessToken();
 
+  const MAX_RETURNED_ALBUMS = 50;
+
   const { data } = await axios.get(`${baseUrl}/artists/${artistId}/albums`,
     {
       params: {
         include_groups: 'album,single',
+        limit: MAX_RETURNED_ALBUMS,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
