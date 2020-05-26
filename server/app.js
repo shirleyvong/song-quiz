@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-app.use('/', routes);
+app.use('/api', routes);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
