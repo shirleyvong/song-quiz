@@ -34,7 +34,7 @@ const App = () => {
         </nav>
 
         <Switch>
-          <Route path='/search/:id'>
+          <Route path='/search/:query'>
             <Search />
           </Route>
           <Route path='/game/:id'>
