@@ -2,7 +2,7 @@ const helpers = require('./helpers');
 const spotifyService = require('../services/spotify');
 
 const searchArtist = async (req, res) => {
-  const { q } = req.query;
+  const { q } = req.params;
 
   try {
     const result = await spotifyService.searchArtist(q);
@@ -19,7 +19,7 @@ const searchArtist = async (req, res) => {
 };
 
 const getTracksByArtist = async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
 
   try {
     /**
