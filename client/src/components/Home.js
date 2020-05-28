@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import SearchBar from './SearchBar';
 
 function Home() {
   return (
     <div>
-      This is the home component.
+      Search for an artist
+      <SearchBar />
     </div>
   )
 }
