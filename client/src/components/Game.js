@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import shuffle from 'knuth-shuffle-seeded';
 import Question from './Question';
 
@@ -9,6 +9,7 @@ const Game = () => {
   const NUM_ROUNDS = 1;
 
   const { id } = useParams();
+  const history = useHistory();
 
   const [tracks, setTracks] = useState([]);
   const [roundNum, setRoundNum] = useState(0);
@@ -74,6 +75,10 @@ const Game = () => {
     generateQuestions();
   }
 
+  const selectNewArtist = () => {
+    history.push('/');
+  }
+
   return (
     <div>
       { isLoading &&
@@ -84,7 +89,7 @@ const Game = () => {
       <div>
         <div>Game over</div>
         <button onClick={resetGame}>Play again</button>
-        <button>Select new artist</button>
+        <button onClick={selectNewArtist}>Select new artist</button>
       </div>
       }
 
