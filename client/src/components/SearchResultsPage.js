@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import ListItem from './ListItem';
+import SearchResults from './SearchResults';
+import Loading from './Loading';
 
-const Search = () => {
+
+const SearchResultsPage = () => {
   const { history } = useHistory();
   const { query } = useParams();
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get(`/api/search/${query}`)
       .then((res) => {
         setResults(res.data);
-        console.log(res.data);
-      })
+        setIsLoading(false);
+        console.log('effect');
+      });
   }, []);
 
   const handleButtonClick = (event) => {
     event.preventDefault();
     history.push('/');
-  }
+  };
 
   return (
     <div>
-      <div>
-        {results ?
-          (
-            results.map((res) => <ListItem id={res.id} images={res.images} name={res.name} />)
-          )
-          :
-          (
-            <div>There are no results for your search.</div>
-          )
-        }
-      </div>
-      <button onClick={handleButtonClick}>Search again</button>
-    </div>
-  )
-}
+      {isLoading && <Loading />}
 
-export default Search;
+      {!isLoading && (
+        <>
+          <SearchResults results={results} />
+          <button type="button" onClick={handleButtonClick}>Search again</button>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default SearchResultsPage;

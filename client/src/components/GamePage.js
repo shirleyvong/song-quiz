@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import shuffle from 'knuth-shuffle-seeded';
 import Question from './Question';
 
-const Game = () => {
+const GamePage = () => {
   const CHOICES_PER_QUESTION = 4;
   const NUM_ROUNDS = 1;
 
@@ -110,4 +110,4 @@ const Game = () => {
   )
 }
 
-export default Game;
+export default GamePage;
