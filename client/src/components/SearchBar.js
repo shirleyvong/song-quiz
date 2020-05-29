@@ -47,7 +47,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-  }  
+  }
 `;
 
 const Button = styled.button`
