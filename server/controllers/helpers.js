@@ -28,6 +28,7 @@ const getTracksByAlbums = async (albums) => {
         artists: item.artists.map((artist) => ({ name: artist.name, id: artist.id })),
         albumName: item.name,
         albumImages: item.images,
+        id: item.id,
       }))
     ))
     .reduce((acc, val) => acc.concat(val), []);
