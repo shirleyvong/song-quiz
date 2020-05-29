@@ -27,8 +27,7 @@ const Game = () => {
     
   useEffect(() =>{
     if (tracks && tracks.length > 0) {
-      const questions = createQuestions(tracks);
-      setQuestions(questions);
+      generateQuestions();
     }
   }, [tracks]);
 
@@ -36,7 +35,7 @@ const Game = () => {
     return Math.floor(Math.random() * maxNum - 1) + 1;
   };
 
-  const createQuestions = (tracks) => {
+  const generateQuestions = () => {
     const copiedTracks = [...tracks];
     shuffle(copiedTracks)
 
@@ -57,7 +56,7 @@ const Game = () => {
       questions.push(q);
     }
     
-    return questions;
+    setQuestions(questions);
   };
 
   const onQuestionFinish = (isCorrect) => {
@@ -68,6 +67,13 @@ const Game = () => {
     setRoundNum(roundNum + 1);
   }
 
+  const resetGame = () => {
+    setQuestions([]);
+    setNumCorrect(0);
+    setRoundNum(0);
+    generateQuestions();
+  }
+
   return (
     <div>
       { isLoading &&
@@ -75,7 +81,11 @@ const Game = () => {
       }
 
       { !isLoading && isGameOver &&
+      <div>
         <div>Game over</div>
+        <button onClick={resetGame}>Play again</button>
+        <button>Select new artist</button>
+      </div>
       }
 
       { !isLoading && !isGameOver &&
