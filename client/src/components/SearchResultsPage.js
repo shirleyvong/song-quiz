@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import SearchResults from './SearchResults';
 import Loading from './Loading';
-import styled from 'styled-components';
 
 const SearchResultsPage = () => {
   const history = useHistory();
@@ -19,19 +19,23 @@ const SearchResultsPage = () => {
       });
   }, []);
 
-  const handleButtonClick = (event) => {
+  const handleSearchAgain = (event) => {
     event.preventDefault();
     history.push('/');
   };
 
+  const handleResultSelect = (id) => () => {
+    history.push(`/game/${id}`);
+  };
+
   return (
     <Container>
-      {isLoading && <Loading />}
+      {isLoading && <Loading text="Searching ..." />}
 
       {!isLoading && (
         <>
-          <SearchResults results={results} query={query} />
-          <Button type="button" onClick={handleButtonClick}>Search again</Button>
+          <SearchResults results={results} query={query} handleResultSelect={handleResultSelect} />
+          <Button type="button" onClick={handleSearchAgain}>Search again</Button>
         </>
       )}
     </Container>
@@ -53,10 +57,15 @@ const Button = styled.button`
   background-color: white;
   border: none;
   border-radius: 500px;
-  
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+  }
+
   &:focus {
     outline: none;
-  }  
+  }
 `;
 
 export default SearchResultsPage;

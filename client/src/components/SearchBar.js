@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { GrSearch } from 'react-icons/gr';
@@ -61,6 +61,11 @@ const Button = styled.button`
   border: none;
   background-color: white;
   border-left: 1px solid black;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default SearchBar;

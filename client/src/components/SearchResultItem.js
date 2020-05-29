@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SearchResultItem = ({ id, images, name }) => {
+const SearchResultItem = ({ images, name, handleResultSelect }) => {
   const imageUrl = images && images[0] && images[0].url || '';
 
   return (
-    <Container>
+    <Container onClick={handleResultSelect}>
       <Image src={imageUrl} />
       <Name>{name}</Name>
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.button`
   display: flex;
   align-items: center;
   background-color: #333333;
@@ -20,11 +20,28 @@ const Container = styled.div`
   padding: 10px;
   width: 100%;
   max-width: 500px;
+  border-radius: 20px;
+  border: none;
+  font-family: inherit;
+  color: inherit;
+
+  &:hover {
+    font-weight: bold;
+    background-color: #575757;
+    transition: font-weight 0.2s;
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Image = styled.img`
   height: 80px;
   width: 80px;
+  border-radius: 20px;
 `;
 
 const Name = styled.span`
