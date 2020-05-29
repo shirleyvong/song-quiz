@@ -63,5 +63,4 @@ const Button = styled.button`
   border-left: 1px solid black;
 `;
 
-
 export default SearchBar;

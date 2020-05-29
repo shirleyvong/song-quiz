@@ -1,14 +1,16 @@
 import React from 'react';
-import ListItem from './ListItem';
+import SearchResultItem from './SearchResultItem';
 
-const SearchResults = ({ results }) => {
+const SearchResults = ({ results, query }) => {
   return (
-    <div>
+    <>
+      <h1>Search results for {query}</h1>
+
       {results && results.length > 0
-        ? results.map((res) => <ListItem id={res.id} images={res.images} name={res.name} />)
-        : <div>There are no results for your search.</div>
+        ? results.map((res) => <SearchResultItem id={res.id} images={res.images} name={res.name} />)
+        : <h1>There are no results.</h1>
       }
-    </div>
+    </>
   );
 };
 
