@@ -9,6 +9,9 @@ let accessTokenExpiry;
 
 const setAccessToken = async () => {
   if (accessToken && Date.now() > accessTokenExpiry) {
+    console.log('Access token expiry', accessTokenExpiry);
+    console.log('Now:', Date.now());
+
     return;
   }
 
