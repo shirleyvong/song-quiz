@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
-const Loading = () => (
+const Loading = ({ text }) => (
   <div>
-    <Text>Loading...</Text>
+    <Text>{text}</Text>
   </div>
 );
 
