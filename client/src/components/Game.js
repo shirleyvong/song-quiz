@@ -6,7 +6,7 @@ import Question from './Question';
 
 const Game = () => {
   const CHOICES_PER_QUESTION = 4;
-  const NUM_ROUNDS = 5;
+  const NUM_ROUNDS = 1;
 
   const { id } = useParams();
 
@@ -14,6 +14,9 @@ const Game = () => {
   const [roundNum, setRoundNum] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [numCorrect, setNumCorrect] = useState(0);
+
+  const isGameOver = roundNum >= NUM_ROUNDS;
+  const isLoading = !questions || questions.length === 0;
 
   useEffect(() => {
     axios.get(`/api/tracks/${id}`)
@@ -67,7 +70,15 @@ const Game = () => {
 
   return (
     <div>
-      { questions && questions.length > 0 ?
+      { isLoading &&
+        <div>Please wait while we create your game...</div>
+      }
+
+      { !isLoading && isGameOver &&
+        <div>Game over</div>
+      }
+
+      { !isLoading && !isGameOver &&
         <>
           <div>Question {roundNum + 1}</div>
           <div>Artist name here</div>
@@ -78,10 +89,7 @@ const Game = () => {
             onQuestionFinish={onQuestionFinish}
             correct={questions[roundNum].correct}
           />
-          
         </>
-        :
-        <div>Please wait while we create your game...</div>
       }
     </div>
   )
