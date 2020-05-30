@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
 import shuffle from 'knuth-shuffle-seeded';
 import Question from './Question';
+import Loading from './Loading';
+import styled from 'styled-components';
 
 const GamePage = () => {
   const CHOICES_PER_QUESTION = 4;
@@ -24,39 +26,37 @@ const GamePage = () => {
       .then((res) => {
         setTracks(res.data);
       });
-  }, []); 
-    
-  useEffect(() =>{
+  }, []);
+
+  useEffect(() => {
     if (tracks && tracks.length > 0) {
       generateQuestions();
     }
   }, [tracks]);
 
-  const getRandomIndex = (maxNum) => {
-    return Math.floor(Math.random() * maxNum - 1) + 1;
-  };
+  const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
 
   const generateQuestions = () => {
     const copiedTracks = [...tracks];
-    shuffle(copiedTracks)
+    shuffle(copiedTracks);
 
     const questions = [];
     for (let i = 0; i < NUM_ROUNDS; i++) {
-      const choices = []
+      const choices = [];
       for (let j = 0; j < CHOICES_PER_QUESTION; j++) {
         const idx = i * CHOICES_PER_QUESTION + j;
         choices.push(copiedTracks[idx]);
       }
-      
+
       const randIdx = getRandomIndex(CHOICES_PER_QUESTION);
       const q = {
         correct: choices[randIdx].id,
         choices,
-      }
+      };
 
       questions.push(q);
     }
-    
+
     setQuestions(questions);
   };
 
@@ -66,38 +66,38 @@ const GamePage = () => {
     }
 
     setRoundNum(roundNum + 1);
-  }
+  };
 
   const resetGame = () => {
     setQuestions([]);
     setNumCorrect(0);
     setRoundNum(0);
     generateQuestions();
-  }
+  };
 
   const selectNewArtist = () => {
     history.push('/');
-  }
+  };
 
   return (
-    <div>
-      { isLoading &&
-        <div>Please wait while we create your game...</div>
-      }
+    <Container>
+      {isLoading && <Loading text="Creating game ..." />}
 
-      { !isLoading && isGameOver &&
+      { !isLoading && isGameOver
+      && (
       <div>
         <div>Game over</div>
         <button onClick={resetGame}>Play again</button>
         <button onClick={selectNewArtist}>Select new artist</button>
       </div>
-      }
+      )}
 
-      { !isLoading && !isGameOver &&
+      { !isLoading && !isGameOver
+        && (
         <>
-          <div>Question {roundNum + 1}</div>
+          <h1>Question {roundNum + 1}</h1>
           <div>Artist name here</div>
-          <div>Correct so far: {numCorrect}</div>
+          <div> Correct so far: {numCorrect}</div>
 
           <Question
             choices={questions[roundNum].choices}
@@ -105,9 +105,15 @@ const GamePage = () => {
             correct={questions[roundNum].correct}
           />
         </>
-      }
-    </div>
-  )
-}
+        )}
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default GamePage;

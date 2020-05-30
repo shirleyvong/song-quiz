@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import Button from './Button';
+import Choices from './Choices';
+import styled from 'styled-components';
 
 const Question = ({ choices, correct, onQuestionFinish }) => {
   const [isAnswerCorrect, setAnswerCorrect] = useState();
+  const [isAnswerSelected, setAnswerSelected] = useState(false);
 
   useEffect(() => {
     setAnswerCorrect();
-  }, [choices])
+    setAnswerSelected(false);
+  }, [choices]);
 
-  const handleAnswerSelect = (trackId) => (event) => {
+  const handleAnswerSelect = (trackId) => () => {
+    setAnswerSelected(true);
+
     if (trackId === correct) {
       setAnswerCorrect(true);
     } else {
@@ -16,28 +23,16 @@ const Question = ({ choices, correct, onQuestionFinish }) => {
   };
 
   const handleNextButtonClick = () => {
-    console.log(isAnswerCorrect);
     onQuestionFinish(isAnswerCorrect);
-  }
+  };
 
   return (
-    <div>
-    
-      <button>Play song</button>
-
-      {
-        choices.map((choice) => <button key={choice.id} onClick={handleAnswerSelect(choice.id)}>
-          {choice.trackName}
-        </button>)
-      }
-
-      {isAnswerCorrect === true && 'Correct!' || isAnswerCorrect === false && 'Incorrect'}
-
-      {isAnswerCorrect != null &&
-        <button onClick={handleNextButtonClick}>Next round</button>
-      }
-    </div>
-  )
+    <>
+      <Button text="Play song" />
+      <Choices choices={choices} handleAnswerSelect={handleAnswerSelect} />
+      <Button isVisible={isAnswerSelected} handleClick={handleNextButtonClick} text="Next" />
+    </>
+  );
 };
 
 export default Question;
