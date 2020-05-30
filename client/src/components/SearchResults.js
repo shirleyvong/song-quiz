@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchResultItem from './SearchResultItem';
+import List from './generic/List';
 
 const SearchResults = ({ results, query, handleResultSelect }) => (
   <>
@@ -8,14 +8,7 @@ const SearchResults = ({ results, query, handleResultSelect }) => (
     </h1>
 
     {results && results.length > 0
-      ? results.map((res) => (
-        <SearchResultItem
-          id={res.id}
-          images={res.images}
-          name={res.name}
-          handleResultSelect={handleResultSelect(res.id)}
-        />
-      ))
+      ? <List items={results} handleItemSelect={handleResultSelect} />
       : <h1>There are no results.</h1>}
   </>
 );

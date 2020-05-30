@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SearchResultItem = ({ images, name, handleResultSelect }) => {
-  const imageUrl = images && images[0] && images[0].url || '';
+const ListItem = ({ image, name, handleItemSelect }) => {
+  const imageUrl = image && image.url || '';
 
   return (
-    <Container onClick={handleResultSelect}>
+    <Container onClick={handleItemSelect}>
       <Image src={imageUrl} />
       <Name>{name}</Name>
     </Container>
@@ -49,4 +49,4 @@ const Name = styled.span`
   padding: 10px;
 `;
 
-export default SearchResultItem;
+export default ListItem;
