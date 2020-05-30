@@ -5,10 +5,11 @@ import shuffle from 'knuth-shuffle-seeded';
 import Question from './Question';
 import Loading from './Loading';
 import styled from 'styled-components';
+import GameOver from './GameOver';
 
 const GamePage = () => {
   const CHOICES_PER_QUESTION = 4;
-  const NUM_ROUNDS = 1;
+  const NUM_QUESTIONS = 1;
 
   const { id } = useParams();
   const history = useHistory();
@@ -18,7 +19,7 @@ const GamePage = () => {
   const [questions, setQuestions] = useState([]);
   const [numCorrect, setNumCorrect] = useState(0);
 
-  const isGameOver = roundNum >= NUM_ROUNDS;
+  const isGameOver = roundNum >= NUM_QUESTIONS;
   const isLoading = !questions || questions.length === 0;
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const GamePage = () => {
     shuffle(copiedTracks);
 
     const questions = [];
-    for (let i = 0; i < NUM_ROUNDS; i++) {
+    for (let i = 0; i < NUM_QUESTIONS; i++) {
       const choices = [];
       for (let j = 0; j < CHOICES_PER_QUESTION; j++) {
         const idx = i * CHOICES_PER_QUESTION + j;
@@ -83,16 +84,16 @@ const GamePage = () => {
     <Container>
       {isLoading && <Loading text="Creating game ..." />}
 
-      { !isLoading && isGameOver
-      && (
-      <div>
-        <div>Game over</div>
-        <button onClick={resetGame}>Play again</button>
-        <button onClick={selectNewArtist}>Select new artist</button>
-      </div>
-      )}
+      { !isLoading && isGameOver &&
+          <GameOver 
+            handleGameReset={resetGame}
+            handleNewArtistSelect={selectNewArtist}
+            numQuestions={NUM_QUESTIONS}
+            numCorrect={numCorrect}
+          /> }
 
       { !isLoading && !isGameOver
+
         && (
         <>
           <h1>Question {roundNum + 1}</h1>

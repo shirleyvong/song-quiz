@@ -5,7 +5,7 @@ const Button = ({ handleClick, text, isVisible = true }) => {
   const Btn = styled.button`
     height: 40px;
     padding: 10px 20px;
-    margin: 20px;
+    margin: 10px;
     font-family: inherit;
     background-color: white;
     border: none;
