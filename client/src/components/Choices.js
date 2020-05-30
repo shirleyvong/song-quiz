@@ -32,6 +32,7 @@ const Choice = styled.button`
   border: none;
   font-family: inherit;
   color: inherit;
+  font-size: 1.2rem;
 
   &:hover {
     font-weight: bold;

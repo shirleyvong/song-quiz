@@ -98,7 +98,6 @@ const GamePage = () => {
         <>
           <h1>Question {roundNum + 1}</h1>
           <div>Artist name here</div>
-          <div> Correct so far: {numCorrect}</div>
 
           <Question
             choices={questions[roundNum].choices}
