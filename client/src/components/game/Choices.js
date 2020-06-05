@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Choices = ({ choices, handleAnswerSelect }) => (
   <Container>
-    {choices.map((choice) => (
+    {choices && choices.map((choice) => (
       <Choice key={choice.id} onClick={handleAnswerSelect(choice.id)}>
         {choice.trackName}
       </Choice>

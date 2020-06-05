@@ -18,9 +18,9 @@ const GamePage = () => {
   const [roundNum, setRoundNum] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [numCorrect, setNumCorrect] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isGameOver = roundNum >= NUM_QUESTIONS;
-  const isLoading = !questions || questions.length === 0;
 
   useEffect(() => {
     axios.get(`/api/tracks/${id}`)
@@ -34,6 +34,12 @@ const GamePage = () => {
       generateQuestions();
     }
   }, [tracks]);
+
+  useEffect(() => {
+    if (questions && questions.length > 0) {
+      setIsLoading(false);
+    }
+  }, [questions]);
 
   const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
 
@@ -58,7 +64,7 @@ const GamePage = () => {
       newQuestions.push(q);
     }
 
-    setQuestions(questions);
+    setQuestions(newQuestions);
   };
 
   const onQuestionFinish = (isCorrect) => {
@@ -70,6 +76,7 @@ const GamePage = () => {
   };
 
   const resetGame = () => {
+    setIsLoading(true);
     setQuestions([]);
     setNumCorrect(0);
     setRoundNum(0);
