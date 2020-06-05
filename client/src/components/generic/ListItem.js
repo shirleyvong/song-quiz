@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ListItem = ({ image, name, handleItemSelect }) => {
-  const imageUrl = image && image.url || '';
+  const imageUrl = (image && image.url) || '';
 
   return (
     <Container onClick={handleItemSelect}>

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchResults from './SearchResults';
-import Loading from './Loading';
-import Button from './Button';
+import Loading from '../generic/Loading';
+import Button from '../generic/Button';
 
 const SearchResultsPage = () => {
   const history = useHistory();

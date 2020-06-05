@@ -1,5 +1,5 @@
 import React from 'react';
-import List from './generic/List';
+import List from '../generic/List';
 
 const SearchResults = ({ results, query, handleResultSelect }) => (
   <>

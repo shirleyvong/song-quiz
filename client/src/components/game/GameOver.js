@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './Button';
+import Button from '../generic/Button';
 import styled from 'styled-components';
 
 const GameOver = ({ handleGameReset, handleNewArtistSelect, numCorrect, numQuestions }) => {

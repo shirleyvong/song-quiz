@@ -4,9 +4,9 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import SearchResultsPage from './components/SearchResultsPage';
-import GamePage from './components/GamePage';
-import SearchPage from './components/SearchPage';
+import SearchResultsPage from './components/searchResults/SearchResultsPage';
+import GamePage from './components/game/GamePage';
+import SearchPage from './components/search/SearchPage';
 import './App.css';
 
 const App = () => (

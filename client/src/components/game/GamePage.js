@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
 import shuffle from 'knuth-shuffle-seeded';
-import Question from './Question';
-import Loading from './Loading';
 import styled from 'styled-components';
+import Loading from '../generic/Loading';
+import Question from './Question';
 import GameOver from './GameOver';
 
 const GamePage = () => {
@@ -41,7 +41,7 @@ const GamePage = () => {
     const copiedTracks = [...tracks];
     shuffle(copiedTracks);
 
-    const questions = [];
+    const newQuestions = [];
     for (let i = 0; i < NUM_QUESTIONS; i++) {
       const choices = [];
       for (let j = 0; j < CHOICES_PER_QUESTION; j++) {
@@ -55,7 +55,7 @@ const GamePage = () => {
         choices,
       };
 
-      questions.push(q);
+      newQuestions.push(q);
     }
 
     setQuestions(questions);
@@ -84,13 +84,14 @@ const GamePage = () => {
     <Container>
       {isLoading && <Loading text="Creating game ..." />}
 
-      { !isLoading && isGameOver &&
-          <GameOver 
-            handleGameReset={resetGame}
-            handleNewArtistSelect={selectNewArtist}
-            numQuestions={NUM_QUESTIONS}
-            numCorrect={numCorrect}
-          /> }
+      { !isLoading && isGameOver && (
+        <GameOver
+          handleGameReset={resetGame}
+          handleNewArtistSelect={selectNewArtist}
+          numQuestions={NUM_QUESTIONS}
+          numCorrect={numCorrect}
+        />
+      )}
 
       { !isLoading && !isGameOver
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Button from './generic/Button';
-import Choices from './game/Choices';
+import Button from '../generic/Button';
+import Choices from './Choices';
+import styled from 'styled-components';
 
 const Question = ({ choices, correct, onQuestionFinish }) => {
   const [isAnswerCorrect, setAnswerCorrect] = useState();

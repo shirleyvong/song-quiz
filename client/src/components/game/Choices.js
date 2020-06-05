@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Choices = ({ choices, handleAnswerSelect }) => {
-  return (
-    <Container>
-      {choices.map((choice) => (
-        <Choice key={choice.id} onClick={handleAnswerSelect(choice.id)}>
-          {choice.trackName}
-        </Choice>
-      ))}
-    </Container>
-  );
-};
+const Choices = ({ choices, handleAnswerSelect }) => (
+  <Container>
+    {choices.map((choice) => (
+      <Choice key={choice.id} onClick={handleAnswerSelect(choice.id)}>
+        {choice.trackName}
+      </Choice>
+    ))}
+  </Container>
+);
 
 const Container = styled.div`
   display: flex;
@@ -46,4 +44,5 @@ const Choice = styled.button`
     outline: none;
   }
 `;
+
 export default Choices;
