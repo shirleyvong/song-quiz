@@ -17,5 +17,14 @@ html, body, .App, #root {
   justify-content: center;
 }
 
-.App {
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
 }
