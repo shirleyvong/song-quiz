@@ -8,10 +8,7 @@ let accessToken;
 let accessTokenExpiry;
 
 const setAccessToken = async () => {
-  if (accessToken && Date.now() > accessTokenExpiry) {
-    console.log('Access token expiry', accessTokenExpiry);
-    console.log('Now:', Date.now());
-
+  if (accessToken && Date.now() < accessTokenExpiry) {
     return;
   }
 
@@ -44,11 +41,13 @@ const searchArtist = async (query) => {
       params: {
         type: 'artist',
         q: query,
+        limit: 50,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    });
+    }
+  );
 
   return data;
 };
