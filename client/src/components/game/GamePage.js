@@ -57,7 +57,7 @@ const GamePage = () => {
 
       const randIdx = getRandomIndex(CHOICES_PER_QUESTION);
       const q = {
-        correct: choices[randIdx].id,
+        correctId: choices[randIdx].id,
         choices,
       };
 
@@ -110,7 +110,7 @@ const GamePage = () => {
           <Question
             choices={questions[roundNum].choices}
             onQuestionFinish={onQuestionFinish}
-            correct={questions[roundNum].correct}
+            correctId={questions[roundNum].correctId}
           />
         </>
         )}

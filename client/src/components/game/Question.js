@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../generic/Button';
 import Choices from './Choices';
-import styled from 'styled-components';
 
-const Question = ({ choices, correct, onQuestionFinish }) => {
-  const [isAnswerCorrect, setAnswerCorrect] = useState();
-  const [isAnswerSelected, setAnswerSelected] = useState(false);
+const Question = ({ choices, correctId, onQuestionFinish }) => {
+  const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
-    setAnswerCorrect();
-    setAnswerSelected(false);
+    setSelectedId('');
   }, [choices]);
 
-  const handleAnswerSelect = (trackId) => () => {
-    setAnswerSelected(true);
-
-    if (trackId === correct) {
-      setAnswerCorrect(true);
-    } else {
-      setAnswerCorrect(false);
-    }
+  const handleAnswerSelect = (trackId) => {
+    setSelectedId(trackId);
   };
 
   const handleNextButtonClick = () => {
-    onQuestionFinish(isAnswerCorrect);
+    onQuestionFinish(true);
   };
 
   return (
     <>
       <Button text="Play song" />
-      <Choices choices={choices} handleAnswerSelect={handleAnswerSelect} />
-      <Button isVisible={isAnswerSelected} handleClick={handleNextButtonClick} text="Next" />
+      <Choices
+        choices={choices}
+        handleAnswerSelect={handleAnswerSelect}
+        selectedId={selectedId}
+        correctId={correctId}
+        isDisabled={!!selectedId}
+      />
+      <Button isVisible={!!selectedId} handleClick={handleNextButtonClick} text="Next" />
     </>
   );
 };
