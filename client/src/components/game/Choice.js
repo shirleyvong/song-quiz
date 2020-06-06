@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const Choice = ({
@@ -29,7 +30,11 @@ const Button = styled.button`
   justify-content: center;
   display: flex;
   align-items: center;
-  background-color: ${(props) => (props.disabled && props.backgroundColour ? props.backgroundColour : '#333333')};
+  background-color: ${(props) => (
+    props.disabled && props.backgroundColour
+      ? props.backgroundColour
+      : '#333333'
+  )}; 
   min-width: 300px;
   margin: 5px;
   padding: 10px;
@@ -39,7 +44,6 @@ const Button = styled.button`
   font-family: inherit;
   color: inherit;
   font-size: 1.2rem;
-
 
   ${(props) => !props.disabled && css`
     &:hover {
@@ -55,5 +59,14 @@ const Button = styled.button`
     }
   `}
 `;
+
+Choice.propTypes = {
+  id: PropTypes.string.isRequired,
+  handleAnswerSelect: PropTypes.func.isRequired,
+  trackName: PropTypes.string.isRequired,
+  isCorrect: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+};
 
 export default Choice;
