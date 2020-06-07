@@ -1,56 +1,50 @@
 import shuffle from 'knuth-shuffle-seeded';
 import api from '../services/api';
 
+const NUM_QUESTIONS = 1;
+const CHOICES_PER_QUESTION = 4;
+
 const SET_TRACKS = 'SET_TRACKS';
-const INCREMENT_ROUND = 'INCREMENT_ROUND';
+const INCREMENT_QUESTION = 'INCREMENT_QUESTION';
 const SET_QUESTIONS = 'SET_QUESTIONS';
 const INCREMENT_CORRECT = 'INCREMENT_CORRECT';
 const SET_GAME_STATE = 'SET_GAME_STATE';
 const RESET_GAME = 'RESET_GAME';
-const FETCH_TRACKS_PENDING = 'FETCH_TRACKS_PENDING';
-const FETCH_TRACKS_SUCCESS = 'FETCH_TRACKS_SUCCESS';
-const FETCH_TRACKS_FAILURE = 'FETCH_TRACKS_FAILURE';
 
-const GAME_STATE = {
+export const GAME_STATE = {
   LOADING: 'LOADING',
   IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETE: 'COMPLETE',
+  DONE: 'DONE',
+  ERROR: 'ERROR',
 };
 
 const initialState = {
   tracks: [],
   questions: [],
-  roundNum: 0,
+  questionNum: 0,
   numCorrect: 0,
   gameState: GAME_STATE.LOADING,
-  isLoading: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TRACKS:
       return { ...state, tracks: action.tracks };
-    case INCREMENT_ROUND:
-      return { ...state, roundNum: state.roundNum + 1 };
+    case INCREMENT_QUESTION:
+      return { ...state, questionNum: state.questionNum + 1 };
     case SET_QUESTIONS:
       return { ...state, questions: action.questions };
     case INCREMENT_CORRECT:
       return { ...state, numCorrect: state.numCorrect + 1 };
     case SET_GAME_STATE:
-      return { ...state, gameState: state.gameState };
+      return { ...state, gameState: action.gameState };
     case RESET_GAME:
       return {
         ...state,
         questions: [],
-        roundNum: 0,
+        questionNum: 0,
         numCorrect: 0,
       };
-    case FETCH_TRACKS_PENDING:
-      return { ...state, isLoading: true };
-    case FETCH_TRACKS_SUCCESS:
-      return { ...state, isLoading: false, tracks: action.tracks };
-    case FETCH_TRACKS_FAILURE:
-      return { ...state, isLoading: true };
     default:
       return state;
   }
@@ -63,9 +57,9 @@ export const setTracks = (tracks) => {
   };
 };
 
-export const incrementRound = () => {
+export const incrementQuestion = () => {
   return {
-    type: INCREMENT_ROUND,
+    type: INCREMENT_QUESTION,
   };
 };
 
@@ -95,30 +89,9 @@ export const resetGame = () => {
   };
 };
 
-export const fetchTracksPending = (artistId) => {
-  return {
-    type: FETCH_TRACKS_PENDING,
-    artistId,
-  };
-};
-
-export const fetchTracksSuccess = (tracks) => {
-  return {
-    type: FETCH_TRACKS_SUCCESS,
-    tracks,
-  };
-};
-
-export const fetchTracksFailure = () => {
-  return {
-    type: FETCH_TRACKS_FAILURE,
-  };
-};
-
 export const createQuestions = () => {
   return async (dispatch, getState) => {
-    const NUM_QUESTIONS = 1;
-    const CHOICES_PER_QUESTION = 4;
+    dispatch(setGameState(GAME_STATE.LOADING));
 
     const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
     const { tracks } = getState().game;
@@ -143,34 +116,48 @@ export const createQuestions = () => {
     }
 
     dispatch(setQuestions(questions));
+    dispatch(setGameState(GAME_STATE.IN_PROGRESS));
   };
 };
 
 export const createGame = (artistId) => {
   return async (dispatch) => {
-    dispatch(fetchTracksPending());
+    dispatch(setGameState(GAME_STATE.LOADING));
+    dispatch(resetGame());
 
     try {
       const tracks = await api.getTracks(artistId);
-      dispatch(fetchTracksSuccess(tracks));
+      dispatch(setTracks(tracks));
       dispatch(createQuestions());
     } catch (error) {
-      dispatch(fetchTracksFailure());
+      dispatch(setGameState(GAME_STATE.ERROR));
     }
   };
 };
 
-// export const replayGame = () => {
-//   return async (dispatch) => {
-//     dispatch(fetchTracksPending());
+export const finishQuestion = () => {
+  return async (dispatch, getState) => {
+    const { questionNum } = getState().game;
+    if (questionNum + 1 < NUM_QUESTIONS) {
+      dispatch(incrementQuestion());
+    } else {
+      dispatch(setGameState(GAME_STATE.DONE));
+    }
+  };
+};
 
-//     try {
-//       const tracks = api.getTracks(artistId);
-//       dispatch(fetchTracksSuccess(tracks));
-//     } catch (error) {
-//       dispatch(fetchTracksFailure());
-//     }
-//   };
-// };
+export const replayGame = () => {
+  return async (dispatch) => {
+    dispatch(setGameState(GAME_STATE.LOADING));
+    dispatch(resetGame());
+
+    try {
+      dispatch(createQuestions());
+    } catch (error) {
+      dispatch(setGameState(GAME_STATE.ERROR));
+    }
+  };
+};
+
 
 export default reducer;

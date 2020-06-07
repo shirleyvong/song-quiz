@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { incrementCorrect, finishQuestion } from '../../reducers/game';
 import Button from '../generic/Button';
 import Choices from './Choices';
 
-const Question = ({ choices, correctId, onQuestionFinish }) => {
+const Question = () => {
+  const dispatch = useDispatch();
+
   const [selectedId, setSelectedId] = useState('');
+
+  const questionNum = useSelector((state) => state.game.questionNum);
+  const choices = useSelector((state) => state.game.questions[questionNum].choices);
+  const correctId = useSelector((state) => state.game.questions[questionNum].correctId);
 
   useEffect(() => {
     setSelectedId('');
@@ -15,11 +24,18 @@ const Question = ({ choices, correctId, onQuestionFinish }) => {
   };
 
   const handleNextButtonClick = () => {
-    onQuestionFinish(true);
+    if (selectedId === correctId) {
+      dispatch(incrementCorrect());
+    }
+
+    dispatch(finishQuestion());
   };
 
   return (
-    <>
+    <Container>
+      <h1>Question {questionNum + 1}</h1>
+      <div>Artist name here</div>
+
       <Button text="Play song" />
       <Choices
         choices={choices}
@@ -29,9 +45,15 @@ const Question = ({ choices, correctId, onQuestionFinish }) => {
         isDisabled={!!selectedId}
       />
       <Button isVisible={!!selectedId} handleClick={handleNextButtonClick} text="Next" />
-    </>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 Question.propTypes = {
   choices: PropTypes.arrayOf(
@@ -49,7 +71,6 @@ Question.propTypes = {
     }),
   ).isRequired,
   correctId: PropTypes.string.isRequired,
-  onQuestionFinish: PropTypes.func.isRequired,
 };
 
 export default Question;

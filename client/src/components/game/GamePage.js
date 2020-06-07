@@ -1,127 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams, useHistory } from 'react-router-dom';
-import shuffle from 'knuth-shuffle-seeded';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { createGame, GAME_STATE } from '../../reducers/game';
 import Loading from '../generic/Loading';
 import Question from './Question';
 import GameOver from './GameOver';
 
+
 const GamePage = () => {
-  const CHOICES_PER_QUESTION = 4;
-  const NUM_QUESTIONS = 1;
-
   const { id } = useParams();
-  const history = useHistory();
-
-  const [tracks, setTracks] = useState([]);
-  const [roundNum, setRoundNum] = useState(0);
-  const [questions, setQuestions] = useState([]);
-  const [numCorrect, setNumCorrect] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const isGameOver = roundNum >= NUM_QUESTIONS;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get(`/api/tracks/${id}`)
-      .then((res) => {
-        setTracks(res.data);
-      });
+    dispatch(createGame(id));
   }, []);
 
-  useEffect(() => {
-    if (tracks && tracks.length > 0) {
-      generateQuestions();
-    }
-  }, [tracks]);
+  const gameState = useSelector((state) => state.game.gameState);
 
-  useEffect(() => {
-    if (questions && questions.length > 0) {
-      setIsLoading(false);
-    }
-  }, [questions]);
-
-  const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
-
-  const generateQuestions = () => {
-    const copiedTracks = [...tracks];
-    shuffle(copiedTracks);
-
-    const newQuestions = [];
-    for (let i = 0; i < NUM_QUESTIONS; i++) {
-      const choices = [];
-      for (let j = 0; j < CHOICES_PER_QUESTION; j++) {
-        const idx = i * CHOICES_PER_QUESTION + j;
-        choices.push(copiedTracks[idx]);
-      }
-
-      const randIdx = getRandomIndex(CHOICES_PER_QUESTION);
-      const q = {
-        correctId: choices[randIdx].id,
-        choices,
-      };
-
-      newQuestions.push(q);
-    }
-
-    setQuestions(newQuestions);
-  };
-
-  const onQuestionFinish = (isCorrect) => {
-    if (isCorrect === true) {
-      setNumCorrect(numCorrect + 1);
-    }
-
-    setRoundNum(roundNum + 1);
-  };
-
-  const resetGame = () => {
-    setIsLoading(true);
-    setQuestions([]);
-    setNumCorrect(0);
-    setRoundNum(0);
-    generateQuestions();
-  };
-
-  const selectNewArtist = () => {
-    history.push('/');
-  };
-
-  return (
-    <Container>
-      {isLoading && <Loading text="Creating game ..." />}
-
-      { !isLoading && isGameOver && (
-        <GameOver
-          handleGameReset={resetGame}
-          handleNewArtistSelect={selectNewArtist}
-          numQuestions={NUM_QUESTIONS}
-          numCorrect={numCorrect}
-        />
-      )}
-
-      { !isLoading && !isGameOver
-
-        && (
-        <>
-          <h1>Question {roundNum + 1}</h1>
-          <div>Artist name here</div>
-
-          <Question
-            choices={questions[roundNum].choices}
-            onQuestionFinish={onQuestionFinish}
-            correctId={questions[roundNum].correctId}
-          />
-        </>
-        )}
-    </Container>
-  );
+  switch (gameState) {
+    case GAME_STATE.LOADING:
+      return <Loading text="Creating game ..." />;
+    case GAME_STATE.IN_PROGRESS:
+      return <Question />;
+    case GAME_STATE.DONE:
+      return <GameOver />;
+    case GAME_STATE.ERROR:
+    default:
+      return <div>Something unexpected occured, please try again later.</div>;
+  }
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 export default GamePage;
