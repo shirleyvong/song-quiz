@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { incrementCorrect, finishQuestion } from '../../reducers/game';
@@ -54,23 +53,5 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-Question.propTypes = {
-  choices: PropTypes.arrayOf(
-    PropTypes.shape({
-      albumName: PropTypes.string.isRequired,
-      artists: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-        }),
-      ),
-      id: PropTypes.string.isRequired,
-      previewUrl: PropTypes.string.isRequired,
-      trackName: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  correctId: PropTypes.string.isRequired,
-};
 
 export default Question;
