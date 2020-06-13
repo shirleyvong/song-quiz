@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { incrementCorrect, finishQuestion } from '../../reducers/game';
 import Button from '../generic/Button';
 import Choices from './Choices';
+import MusicPlayer from './MusicPlayer';
 
 const Question = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Question = () => {
   const questionNum = useSelector((state) => state.game.questionNum);
   const choices = useSelector((state) => state.game.questions[questionNum].choices);
   const correctId = useSelector((state) => state.game.questions[questionNum].correctId);
+  const songUrl = useSelector((state) => state.game.questions[questionNum].songUrl);
 
   useEffect(() => {
     setSelectedId('');
@@ -34,8 +36,7 @@ const Question = () => {
     <Container>
       <h1>Question {questionNum + 1}</h1>
       <div>Artist name here</div>
-
-      <Button text="Play song" />
+      <MusicPlayer url={songUrl} />
       <Choices
         choices={choices}
         handleAnswerSelect={handleAnswerSelect}
