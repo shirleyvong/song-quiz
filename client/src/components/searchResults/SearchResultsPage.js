@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import api from '../../services/api';
 import SearchResults from './SearchResults';
 import Loading from '../generic/Loading';
 import Button from '../generic/Button';
@@ -12,12 +12,10 @@ const SearchResultsPage = () => {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    axios.get(`/api/search/${query}`)
-      .then((res) => {
-        setResults(res.data);
-        setIsLoading(false);
-      });
+  useEffect(async () => {
+    const data = await api.search(query);
+    setResults(data);
+    setIsLoading(false);
   }, []);
 
   const handleSearchAgain = (event) => {
