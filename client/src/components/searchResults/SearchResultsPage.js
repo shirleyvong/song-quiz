@@ -5,17 +5,24 @@ import api from '../../services/api';
 import SearchResults from './SearchResults';
 import Loading from '../generic/Loading';
 import Button from '../generic/Button';
+import useAsyncError from '../../hooks/useAsyncError';
 
 const SearchResultsPage = () => {
   const history = useHistory();
   const { query } = useParams();
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const throwError = useAsyncError();
 
-  useEffect(async () => {
-    const data = await api.search(query);
-    setResults(data);
-    setIsLoading(false);
+  useEffect(() => {
+    api.search(query)
+      .then((data) => {
+        setResults(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        throwError('Error fetching search from API');
+      });
   }, []);
 
   const handleSearchAgain = (event) => {
