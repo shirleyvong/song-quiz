@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
 
-function SearchPage() {
+const Search = () => {
   return (
     <Container>
       <h1>Search for an artist</h1>
       <SearchBar />
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: 100%;
@@ -18,4 +18,4 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default SearchPage;
+export default Search;

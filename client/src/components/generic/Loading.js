@@ -7,7 +7,6 @@ const Loading = ({ text }) => (
   </div>
 );
 
-
 const fadeIn = keyframes`
   0% {
     opacity: 0;

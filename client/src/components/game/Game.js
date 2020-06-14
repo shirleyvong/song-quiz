@@ -6,16 +6,14 @@ import Loading from '../generic/Loading';
 import Question from './Question';
 import GameOver from './GameOver';
 
-
-const GamePage = () => {
+const Game = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const gameState = useSelector((state) => state.game.gameState);
 
   useEffect(() => {
     dispatch(createGame(id));
   }, []);
-
-  const gameState = useSelector((state) => state.game.gameState);
 
   switch (gameState) {
     case GAME_STATE.LOADING:
@@ -30,4 +28,4 @@ const GamePage = () => {
   }
 };
 
-export default GamePage;
+export default Game;

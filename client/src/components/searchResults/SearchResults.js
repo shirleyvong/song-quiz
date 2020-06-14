@@ -1,30 +1,63 @@
-import React from 'react';
-import List from '../generic/List';
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import api from '../../services/api';
+import ResultsList from './ResultsList';
+import Loading from '../generic/Loading';
+import Button from '../generic/Button';
+import useAsyncError from '../../hooks/useAsyncError';
 
-const SearchResults = ({ results, query, handleResultSelect }) => (
-  <>
-    <h1>
-      Search results for {query}
-    </h1>
+const SearchResults = () => {
+  const history = useHistory();
+  const { query } = useParams();
+  const throwError = useAsyncError();
 
-    <ListContainer>
-      {results && results.length > 0
-        ? <List items={results} handleItemSelect={handleResultSelect} />
-        : <h1>There are no results.</h1>}
-    </ListContainer>
-  </>
-);
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-const ListContainer = styled.div`
+  useEffect(() => {
+    api.search(query)
+      .then((data) => {
+        setResults(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        throwError('Error fetching search from API');
+      });
+  }, []);
+
+  const handleSearchAgain = (event) => {
+    event.preventDefault();
+    history.push('/');
+  };
+
+  const handleResultSelect = (id) => () => {
+    history.push(`/game/${id}`);
+  };
+
+  return (
+    <Container>
+      { isLoading
+        ? <Loading text="Searching ..." />
+        : (
+          <>
+            <ResultsList
+              results={results}
+              query={query}
+              handleResultSelect={handleResultSelect}
+            />
+            <Button handleClick={handleSearchAgain} text="Search again" />
+          </>
+        )}
+    </Container>
+  );
+};
+
+const Container = styled.div`
   width: 100%;
-  max-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 60vh;
-  overflow: auto;
-  padding-right: 20px;
 `;
 
 export default SearchResults;

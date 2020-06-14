@@ -8,13 +8,12 @@ import MusicPlayer from './MusicPlayer';
 
 const Question = () => {
   const dispatch = useDispatch();
-
-  const [selectedId, setSelectedId] = useState('');
-
   const questionNum = useSelector((state) => state.game.questionNum);
   const choices = useSelector((state) => state.game.questions[questionNum].choices);
   const correctId = useSelector((state) => state.game.questions[questionNum].correctId);
   const songUrl = useSelector((state) => state.game.questions[questionNum].songUrl);
+
+  const [selectedId, setSelectedId] = useState('');
 
   useEffect(() => {
     setSelectedId('');

@@ -4,9 +4,9 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import SearchResultsPage from './components/searchResults/SearchResultsPage';
-import GamePage from './components/game/GamePage';
-import SearchPage from './components/search/SearchPage';
+import SearchResults from './components/searchResults/SearchResults';
+import Game from './components/game/Game';
+import Search from './components/search/Search';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
@@ -15,13 +15,13 @@ const App = () => (
     <Router>
       <Switch>
         <Route path="/search/:query">
-          <SearchResultsPage />
+          <SearchResults />
         </Route>
         <Route path="/game/:id">
-          <GamePage />
+          <Game />
         </Route>
         <Route path="/">
-          <SearchPage />
+          <Search />
         </Route>
       </Switch>
     </Router>

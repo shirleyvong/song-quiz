@@ -8,7 +8,6 @@ import Button from '../generic/Button';
 const GameOver = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-
   const numCorrect = useSelector((state) => state.game.numCorrect);
   const numQuestions = useSelector((state) => state.game.questions.length);
 
