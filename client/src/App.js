@@ -7,22 +7,25 @@ import {
 import SearchResultsPage from './components/searchResults/SearchResultsPage';
 import GamePage from './components/game/GamePage';
 import SearchPage from './components/search/SearchPage';
+import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
 const App = () => (
-  <Router>
-    <Switch>
-      <Route path="/search/:query">
-        <SearchResultsPage />
-      </Route>
-      <Route path="/game/:id">
-        <GamePage />
-      </Route>
-      <Route path="/">
-        <SearchPage />
-      </Route>
-    </Switch>
-  </Router>
+  <ErrorBoundary>
+    <Router>
+      <Switch>
+        <Route path="/search/:query">
+          <SearchResultsPage />
+        </Route>
+        <Route path="/game/:id">
+          <GamePage />
+        </Route>
+        <Route path="/">
+          <SearchPage />
+        </Route>
+      </Switch>
+    </Router>
+  </ErrorBoundary>
 );
 
 export default App;
