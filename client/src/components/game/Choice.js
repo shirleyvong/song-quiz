@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 const Choice = ({
   id, handleAnswerSelect, trackName, isCorrect, isSelected, isDisabled = false,
 }) => {
-  const [backgroundColour, setBackgroundColour] = useState('#333333');
+  const [backgroundColour, setBackgroundColour] = useState('');
 
   useEffect(() => {
     if (isCorrect) {
@@ -33,7 +33,7 @@ const Button = styled.button`
   background-color: ${(props) => (
     props.disabled && props.backgroundColour
       ? props.backgroundColour
-      : '#333333'
+      : 'rgba(0, 0, 0, 0.3)'
   )}; 
   min-width: 300px;
   margin: 5px;

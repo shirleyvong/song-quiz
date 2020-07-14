@@ -18,7 +18,7 @@ const Search = () => {
 
 const Title = styled.h1`
   margin-bottom: 0px;
-`
+`;
 
 const Text = styled.div`
   display: flex;
@@ -34,6 +34,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 50vh;
 `;
 
 export default Search;

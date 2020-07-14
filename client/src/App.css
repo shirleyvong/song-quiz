@@ -27,9 +27,9 @@ h1 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #555555;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+  background: #575757;
 }

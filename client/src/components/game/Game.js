@@ -17,14 +17,14 @@ const Game = () => {
 
   switch (gameState) {
     case GAME_STATE.LOADING:
-      return <Loading text="Creating game ..." />;
+      return <Loading text="creating game ..." />;
     case GAME_STATE.IN_PROGRESS:
       return <Question />;
     case GAME_STATE.DONE:
       return <GameOver />;
     case GAME_STATE.ERROR:
     default:
-      return <div>Something unexpected occured, please try again later.</div>;
+      return <div>something unexpected occured, please try again later.</div>;
   }
 };
 

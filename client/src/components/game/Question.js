@@ -33,9 +33,8 @@ const Question = () => {
 
   return (
     <Container>
-      <h1>Question {questionNum + 1}</h1>
-      <div>Artist name here</div>
       <MusicPlayer url={songUrl} />
+      <h1>question {questionNum + 1}</h1>
       <Choices
         choices={choices}
         handleAnswerSelect={handleAnswerSelect}
