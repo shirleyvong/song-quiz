@@ -15,9 +15,11 @@ const MusicPlayer = ({ url }) => {
     audio.addEventListener('ended', () => setIsPlaying(false));
 
     return () => {
+      audio.pause();
       audio.removeEventListener('ended', () => setIsPlaying(false));
+      setIsPlaying(false);
     };
-  }, []);
+  }, [url]);
 
   const handleButtonClick = () => {
     setIsPlaying(!isPlaying);
