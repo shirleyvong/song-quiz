@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { GrPlay, GrPause } from 'react-icons/gr';
+import { FaPlay, FaPause } from 'react-icons/fa';
 
 const MusicPlayer = ({ url }) => {
   const [audio] = useState(new Audio(url));
@@ -23,12 +23,13 @@ const MusicPlayer = ({ url }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const buttonIcon = isPlaying ? <GrPause /> : <GrPlay />;
+  const buttonIcon = isPlaying ? <FaPause /> : <FaPlay />;
 
   return (
     <Btn onClick={handleButtonClick}>{buttonIcon}</Btn>
   );
 };
+
 
 const Btn = styled.button`
   width: 50px;
@@ -39,10 +40,11 @@ const Btn = styled.button`
   padding: 10px 10px;
   margin: 10px;
   font-family: inherit;
-  background-color: white;
-  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: 3px solid white;
   border-radius: 50px;
   font-weight: bold;
+  color: white;
 
   &:hover {
     cursor: pointer;

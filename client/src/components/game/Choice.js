@@ -9,9 +9,9 @@ const Choice = ({
 
   useEffect(() => {
     if (isCorrect) {
-      setBackgroundColour('green');
+      setBackgroundColour('#5db356');
     } else if (isSelected) {
-      setBackgroundColour('red');
+      setBackgroundColour('#ff4a4a');
     }
   }, [isSelected, isCorrect]);
 
@@ -47,7 +47,6 @@ const Button = styled.button`
 
   ${(props) => !props.disabled && css`
     &:hover {
-      font-weight: bold;
       background-color: #575757;
       transition: font-weight 0.2s;
       transition: background-color 0.2s;

@@ -17,7 +17,7 @@ const Btn = styled.button`
   border-radius: 500px;
   visibility: ${(props) => props.visible ? 'visible' : 'hidden' };
   text-transform: uppercase;
-  align
+  
   &:hover {
     cursor: pointer;
   }
