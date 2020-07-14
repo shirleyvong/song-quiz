@@ -8,7 +8,11 @@ const MusicPlayer = ({ url }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    isPlaying ? audio.play() : audio.pause();
+    if (isPlaying) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
   }, [isPlaying]);
 
   useEffect(() => {
@@ -31,7 +35,6 @@ const MusicPlayer = ({ url }) => {
     <Btn onClick={handleButtonClick}>{buttonIcon}</Btn>
   );
 };
-
 
 const Btn = styled.button`
   width: 50px;

@@ -160,5 +160,4 @@ export const replayGame = () => {
   };
 };
 
-
 export default reducer;
