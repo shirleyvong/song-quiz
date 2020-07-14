@@ -17,7 +17,7 @@ const ListItem = ({ image, name, handleItemSelect }) => {
 const Container = styled.button`
   display: flex;
   align-items: center;
-  background-color: #333333;
+  background-color: rgba(0, 0, 0, 0.3);
   margin: 10px 0 10px 0;
   padding: 10px;
   width: 100%;

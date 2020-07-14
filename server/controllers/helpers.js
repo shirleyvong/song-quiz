@@ -29,6 +29,7 @@ const getTracksByAlbums = async (albums) => {
         albumName: item.name,
         albumImages: item.images,
         id: item.id,
+        externalUrl: item.external_urls && item.external_urls.spotify || '',
       }))
     ))
     .reduce((acc, val) => acc.concat(val), []);
