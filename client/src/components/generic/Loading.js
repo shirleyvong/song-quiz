@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
 const Loading = ({ text }) => (
@@ -27,5 +28,9 @@ const Text = styled.h1`
   animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 `;
+
+Loading.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 
 export default Loading;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Button = ({ handleClick, text, isVisible = true }) => {
@@ -26,5 +27,15 @@ const Btn = styled.button`
     outline: none;
   }
 `;
+
+Button.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool,
+};
+
+Button.defaultProps = {
+  isVisible: false,
+};
 
 export default Button;

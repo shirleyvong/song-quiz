@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const ListItem = ({ image, name, handleItemSelect }) => {
-  const imageUrl = (image && image.url) || '';
+  const imageUrl = image.url;
 
   return (
     <Container onClick={handleItemSelect}>
@@ -56,5 +57,17 @@ const Name = styled.span`
   font-size: 1.2rem;
   padding: 10px;
 `;
+
+ListItem.propTypes = {
+  image: PropTypes.shape({
+    url: PropTypes.string,
+  }),
+  name: PropTypes.string.isRequired,
+  handleItemSelect: PropTypes.func.isRequired,
+};
+
+ListItem.defaultProps = {
+  image: {},
+};
 
 export default ListItem;
