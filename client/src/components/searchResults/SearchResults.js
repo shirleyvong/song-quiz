@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../services/api';
-import ResultsList from './ResultsList';
+import List from './List';
 import Loading from '../generic/Loading';
 import Button from '../generic/Button';
 import useAsyncError from '../../hooks/useAsyncError';
@@ -41,17 +41,29 @@ const SearchResults = () => {
         ? <Loading text="searching ..." />
         : (
           <>
-            <ResultsList
-              results={results}
-              query={query}
-              handleResultSelect={handleResultSelect}
-            />
+            <h1>search results for "{query}"</h1>
+            <ListContainer>
+              {results && results.length > 0
+                ? <List items={results} handleItemSelect={handleResultSelect} />
+                : <h1>There are no results.</h1>}
+            </ListContainer>
             <Button handleClick={handleSearchAgain} text="search again" />
           </>
         )}
     </Container>
   );
 };
+
+const ListContainer = styled.div`
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 60vh;
+  overflow: auto;
+  padding-right: 20px;
+`;
 
 const Container = styled.div`
   width: 100%;
