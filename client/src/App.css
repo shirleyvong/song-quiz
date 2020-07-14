@@ -18,6 +18,10 @@ html, body, .App, #root {
   justify-content: center;
 }
 
+h1 {
+  letter-spacing: 3px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

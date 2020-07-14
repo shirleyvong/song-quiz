@@ -6,8 +6,10 @@ const ListItem = ({ image, name, handleItemSelect }) => {
 
   return (
     <Container onClick={handleItemSelect}>
-      <Image src={imageUrl} />
       <Name>{name}</Name>
+      <ImageWrapper>
+        {imageUrl && <Image src={imageUrl} />}
+      </ImageWrapper>
     </Container>
   );
 };
@@ -24,6 +26,7 @@ const Container = styled.button`
   border: none;
   font-family: inherit;
   color: inherit;
+  justify-content: space-between;
 
   &:hover {
     font-weight: bold;
@@ -36,6 +39,10 @@ const Container = styled.button`
   &:focus {
     outline: none;
   }
+`;
+
+const ImageWrapper = styled.div`
+  height: 80px;
 `;
 
 const Image = styled.img`

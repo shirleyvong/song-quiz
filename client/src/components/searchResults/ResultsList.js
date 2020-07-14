@@ -5,7 +5,7 @@ import List from '../generic/List';
 const ResultsList = ({ results, query, handleResultSelect }) => (
   <>
     <h1>
-      Search results for {query}
+      search results for "{query}"
     </h1>
 
     <ListContainer>

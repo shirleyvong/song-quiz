@@ -8,16 +8,16 @@ const Button = ({ handleClick, text, isVisible = true }) => {
 };
 
 const Btn = styled.button`
-  height: 40px;
   padding: 10px 20px;
   margin: 10px;
   font-family: inherit;
-  background-color: white;
-  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: 3px solid white;
+  color: white;
   border-radius: 500px;
-  font-weight: bold;
   visibility: ${(props) => props.visible ? 'visible' : 'hidden' };
-
+  text-transform: uppercase;
+  align
   &:hover {
     cursor: pointer;
   }
@@ -26,6 +26,5 @@ const Btn = styled.button`
     outline: none;
   }
 `;
-
 
 export default Button;

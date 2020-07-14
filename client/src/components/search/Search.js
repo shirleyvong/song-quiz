@@ -18,7 +18,6 @@ const Search = () => {
 
 const Title = styled.h1`
   margin-bottom: 0px;
-  letter-spacing: 3px;
 `
 
 const Text = styled.div`

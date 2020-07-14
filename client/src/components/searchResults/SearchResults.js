@@ -38,7 +38,7 @@ const SearchResults = () => {
   return (
     <Container>
       { isLoading
-        ? <Loading text="Searching ..." />
+        ? <Loading text="searching ..." />
         : (
           <>
             <ResultsList
@@ -46,7 +46,7 @@ const SearchResults = () => {
               query={query}
               handleResultSelect={handleResultSelect}
             />
-            <Button handleClick={handleSearchAgain} text="Search again" />
+            <Button handleClick={handleSearchAgain} text="search again" />
           </>
         )}
     </Container>
