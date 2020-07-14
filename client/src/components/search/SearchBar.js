@@ -44,6 +44,7 @@ const Input = styled.input`
   border: 0px;
   border-radius: 500px 0 0 500px;
   font-family: inherit;
+  letter-spacing: 1px;
 
   &:focus {
     outline: none;
@@ -60,7 +61,7 @@ const Button = styled.button`
   padding: 0px;
   border: none;
   background-color: white;
-  border-left: 1px solid black;
+  border-left: 1px solid #bfbfbf;
   cursor: pointer;
 
   &:focus {
