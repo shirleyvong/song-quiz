@@ -35,7 +35,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  isVisible: false,
+  isVisible: true,
 };
 
 export default Button;
