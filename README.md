@@ -24,9 +24,7 @@ We need to get the `CLIENT_ID`, `CLIENT_SECRET`, and `REFRESH_TOKEN` to create a
 ```
 
 CLIENT_ID=<your client id>
-
 CLIENT_SECRET=<your client secret>
-
 PORT=<port used in redirect uri>
 
 ```
@@ -40,11 +38,8 @@ PORT=<port used in redirect uri>
 ```
 
 CLIENT_ID=<your client id>
-
 CLIENT_SECRET=<your client secret>
-
 PORT=9000
-
 REFRESH_TOKEN=<your refresh token>
 
 ```
