@@ -10,13 +10,38 @@ const MusicPlayer = ({ url }) => {
   const latestUrl = useRef(url);
   const latestAudio = useRef(audio);
 
+  let isUnmounted = false;
+
+  const handleAudio = (event) => {
+    switch (event.type) {
+      case 'play':
+        setIsPlaying(true);
+        break;
+      case 'ended':
+        setIsPlaying(false);
+        break;
+      case 'pause':
+        // Can't perform state update on an unmounted component or warning will occur
+        if (!isUnmounted) {
+          setIsPlaying(false);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     // Only run this code if the url changes or else we get an infinite loop
     // since we need to keep audio in dependencies
     if (url !== latestUrl.current) {
       // The old audio won't become garbage collected until it's paused, so manually pause
-      // before setting new audio element.
+      // and clean up before setting new audio element.
+      audio.removeEventListener('ended', handleAudio);
+      audio.removeEventListener('pause', handleAudio);
+      audio.removeEventListener('play', handleAudio);
       audio.pause();
+
       setIsPlaying(false);
       setAudio(new Audio(url));
       latestUrl.current = url;
@@ -25,12 +50,19 @@ const MusicPlayer = ({ url }) => {
 
   useEffect(() => {
     latestAudio.current = audio;
+    audio.addEventListener('ended', handleAudio);
+    audio.addEventListener('pause', handleAudio);
+    audio.addEventListener('play', handleAudio);
   }, [audio]);
 
   useEffect(() => {
     return () => {
+      isUnmounted = true;
       // Can't do audio.pause() because in this effect, audio refers to the first audio element
-      // that was created. Must pause the reference for the latest audio element.
+      // that was created. Must pause and clean up the reference for the latest audio element
+      latestAudio.current.removeEventListener('pause', handleAudio);
+      latestAudio.current.removeEventListener('ended', handleAudio);
+      latestAudio.current.removeEventListener('play', handleAudio);
       latestAudio.current.pause();
     };
   }, []);
