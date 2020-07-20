@@ -46,8 +46,7 @@ const searchArtist = async (query) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-    }
-  );
+    });
 
   return data;
 };
