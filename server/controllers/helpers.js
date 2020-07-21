@@ -32,7 +32,12 @@ const getTracksByAlbums = async (albums) => {
         externalUrl: item.external_urls && item.external_urls.spotify || '',
       }))
     ))
-    .reduce((acc, val) => acc.concat(val), []);
+    .reduce((acc, val) => acc.concat(val), [])
+    .filter((track, pos, arr) => {
+      // Remove tracks with same track name and tracks without preview urls
+      return track.previewUrl != null
+      && arr.map((obj) => obj.trackName).indexOf(track.trackName) === pos;
+    });
 
   return tracks;
 };
