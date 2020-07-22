@@ -41,7 +41,7 @@ const searchArtist = async (query) => {
       params: {
         type: 'artist',
         q: query,
-        limit: 50,
+        limit: 20,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -89,8 +89,28 @@ const getAlbumIdsByArtist = async (artistId) => {
   return data;
 };
 
+const getArtistTopTracks = async (artistId) => {
+  await setAccessToken();
+
+  const { data } = await axios.get(`${baseUrl}/artists/${artistId}/top-tracks`,
+    {
+      params: {
+        country: 'CA',
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+  return {
+    artistId,
+    tracks: data.tracks,
+  };
+};
+
 module.exports = {
   searchArtist,
   getAlbumsByIds,
   getAlbumIdsByArtist,
+  getArtistTopTracks,
 };
