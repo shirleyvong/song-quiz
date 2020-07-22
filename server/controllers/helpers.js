@@ -48,8 +48,37 @@ const getAlbumIdsByArtist = async (artistId) => {
   return albumIds;
 };
 
+const getPlayableArtists = async (query) => {
+  const searchResults = await spotifyService.searchArtist(query);
+  const artists = searchResults.artists.items;
+
+  // An artist needs at least 5 songs with preview urls to be playable
+  // No endpoint exists for fetching all tracks, so fetch the top 10 tracks
+  // for each artist.
+  const trackData = await Promise.all(artists.map((a) => spotifyService.getArtistTopTracks(a.id)));
+  const numTracksByArtist = {};
+  trackData.forEach((item) => {
+    item.tracks = item.tracks.filter((track) => !!track.preview_url);
+    numTracksByArtist[item.artistId] = item.tracks.length;
+  });
+
+  // NUM_QUESTIONS in game.js on client-side must be less or equal to MIN_TRACKS
+  const MIN_TRACKS = 5;
+
+  const playableArtists = artists
+    .filter((artist) => numTracksByArtist[artist.id] >= MIN_TRACKS)
+    .map((artist) => ({
+      id: artist.id,
+      images: artist.images,
+      name: artist.name,
+    }));
+
+  return playableArtists;
+};
+
 module.exports = {
   getAlbumIdsByArtist,
   getAlbumsByIds,
   getTracksByAlbums,
+  getPlayableArtists,
 };

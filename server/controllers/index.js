@@ -1,18 +1,11 @@
 const helpers = require('./helpers');
-const spotifyService = require('../services/spotify');
 
 const searchArtist = async (req, res) => {
   const { q } = req.params;
 
   try {
-    const result = await spotifyService.searchArtist(q);
-    const searchData = result.artists.items.map((item) => ({
-      id: item.id,
-      images: item.images,
-      name: item.name,
-    }));
-
-    res.json(searchData);
+    const artists = await helpers.getPlayableArtists(q);
+    res.json(artists);
   } catch (error) {
     console.log(error);
   }

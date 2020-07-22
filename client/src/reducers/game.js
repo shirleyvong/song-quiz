@@ -1,6 +1,7 @@
 import shuffle from 'knuth-shuffle-seeded';
 import api from '../services/api';
 
+// NUM_QUESTIONS must be less or equal to than MIN_TRACKS in helpers.js on server-side
 const NUM_QUESTIONS = 5;
 const CHOICES_PER_QUESTION = 4;
 
