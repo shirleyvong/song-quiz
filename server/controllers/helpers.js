@@ -1,13 +1,13 @@
 const spotifyService = require('../services/spotify');
 
-const getAlbumsByIds = async (albumIds) => {
+const getAlbumsByIds = async (albumIds, accessToken) => {
   const MAX_IDS_PER_REQUEST = 20;
   const groupedAlbumIds = [];
   for (let i = 0; i < albumIds.length; i += MAX_IDS_PER_REQUEST) {
     groupedAlbumIds.push(albumIds.splice(i, i + MAX_IDS_PER_REQUEST));
   }
 
-  const promises = groupedAlbumIds.map((group) => spotifyService.getAlbumsByIds(group));
+  const promises = groupedAlbumIds.map((group) => spotifyService.getAlbumsByIds(group, accessToken));
   const results = await Promise.all(promises);
 
   // Flatten array of data to depth 1
@@ -42,20 +42,20 @@ const getTracksByAlbums = async (albums) => {
   return tracks;
 };
 
-const getAlbumIdsByArtist = async (artistId) => {
-  const result = await spotifyService.getAlbumIdsByArtist(artistId);
+const getAlbumIdsByArtist = async (artistId, accessToken) => {
+  const result = await spotifyService.getAlbumIdsByArtist(artistId, accessToken);
   const albumIds = result.items.map((item) => item.id);
   return albumIds;
 };
 
-const getPlayableArtists = async (query) => {
-  const searchResults = await spotifyService.searchArtist(query);
+const getPlayableArtists = async (query, accessToken) => {
+  const searchResults = await spotifyService.searchArtist(query, accessToken);
   const artists = searchResults.artists.items;
 
   // An artist needs at least 5 songs with preview urls to be playable
   // No endpoint exists for fetching all tracks, so fetch the top 10 tracks
   // for each artist.
-  const trackData = await Promise.all(artists.map((a) => spotifyService.getArtistTopTracks(a.id)));
+  const trackData = await Promise.all(artists.map((a) => spotifyService.getArtistTopTracks(a.id, accessToken)));
   const numTracksByArtist = {};
   trackData.forEach((item) => {
     item.tracks = item.tracks.filter((track) => !!track.preview_url);

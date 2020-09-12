@@ -4,38 +4,7 @@ const querystring = require('querystring');
 
 const baseUrl = 'https://api.spotify.com/v1';
 
-let accessToken;
-let accessTokenExpiry;
-
-const setAccessToken = async () => {
-  if (accessToken && Date.now() < accessTokenExpiry) {
-    return;
-  }
-
-  const encodedAuth = Buffer.from(`${config.CLIENT_ID}:${config.CLIENT_SECRET}`).toString('base64');
-
-  try {
-    const { data } = await axios.post('https://accounts.spotify.com/api/token',
-      querystring.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: config.REFRESH_TOKEN,
-      }),
-      {
-        headers: {
-          Authorization: `Basic ${encodedAuth}`,
-        },
-      });
-
-    accessToken = data.access_token;
-    accessTokenExpiry = Date.now() + data.expires_in * 1000; // convert to milliseconds
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const searchArtist = async (query) => {
-  await setAccessToken();
-
+const searchArtist = async (query, accessToken) => {
   const { data } = await axios.get(`${baseUrl}/search`,
     {
       params: {
@@ -51,9 +20,7 @@ const searchArtist = async (query) => {
   return data;
 };
 
-const getAlbumsByIds = async (ids) => {
-  await setAccessToken();
-
+const getAlbumsByIds = async (ids, accessToken) => {
   const formattedIds = JSON.stringify(ids).replace(/\[|\]|"/g, '');
 
   const { data } = await axios.get(`${baseUrl}/albums`,
@@ -70,9 +37,7 @@ const getAlbumsByIds = async (ids) => {
   return data;
 };
 
-const getAlbumIdsByArtist = async (artistId) => {
-  await setAccessToken();
-
+const getAlbumIdsByArtist = async (artistId, accessToken) => {
   const MAX_RETURNED_ALBUMS = 50;
 
   const { data } = await axios.get(`${baseUrl}/artists/${artistId}/albums`,
@@ -89,9 +54,7 @@ const getAlbumIdsByArtist = async (artistId) => {
   return data;
 };
 
-const getArtistTopTracks = async (artistId) => {
-  await setAccessToken();
-
+const getArtistTopTracks = async (artistId, accessToken) => {
   const { data } = await axios.get(`${baseUrl}/artists/${artistId}/top-tracks`,
     {
       params: {
@@ -108,9 +71,30 @@ const getArtistTopTracks = async (artistId) => {
   };
 };
 
+const getAccessToken = async () => {
+  const encodedAuth = Buffer.from(`${config.CLIENT_ID}:${config.CLIENT_SECRET}`).toString('base64');
+
+  const { data } = await axios.post('https://accounts.spotify.com/api/token',
+    querystring.stringify({
+      grant_type: 'refresh_token',
+      refresh_token: config.REFRESH_TOKEN,
+    }),
+    {
+      headers: {
+        Authorization: `Basic ${encodedAuth}`,
+      },
+    });
+
+  return {
+    accessToken: data.access_token,
+    expires: Date.now() + data.expires_in * 1000, // convert to milliseconds
+  }
+}
+
 module.exports = {
   searchArtist,
   getAlbumsByIds,
   getAlbumIdsByArtist,
   getArtistTopTracks,
+  getAccessToken,
 };

@@ -4,7 +4,7 @@ const searchArtist = async (req, res) => {
   const { q } = req.params;
 
   try {
-    const artists = await helpers.getPlayableArtists(q);
+    const artists = await helpers.getPlayableArtists(q, req.app.locals.accessToken.value);
     res.json(artists);
   } catch (error) {
     console.log(error);
@@ -21,8 +21,8 @@ const getTracksByArtist = async (req, res) => {
      *  1) Get the album ids by artist
      *  2) Get the album by album id, which contains track info
      */
-    const albumIds = await helpers.getAlbumIdsByArtist(id, req.accessToken);
-    const albums = await helpers.getAlbumsByIds(albumIds, req.accessToken);
+    const albumIds = await helpers.getAlbumIdsByArtist(id, req.app.locals.accessToken.value);
+    const albums = await helpers.getAlbumsByIds(albumIds, req.app.locals.accessToken.value);
     const tracks = await helpers.getTracksByAlbums(albums);
 
     res.json(tracks);
@@ -30,7 +30,6 @@ const getTracksByArtist = async (req, res) => {
     console.log(error);
   }
 };
-
 
 module.exports = {
   searchArtist,
