@@ -5,7 +5,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const middleware = require('./utils/middleware');
 const routes = require('./routes/index');
-// const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -14,8 +13,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-// Only used to get refresh token from Spotify API. Once you have the refresh token,
-// add REFRESH_TOKEN to .env and comment this line
+// Only used to get refresh token from Spotify API.
+// const authRoutes = require('./routes/auth');
 // app.use('/', authRoutes);
 
 app.use('/api', routes);
@@ -26,7 +25,6 @@ app.get('/*', (req, res) => {
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
-
 
 app.listen(config.PORT, () => {
   console.log(`Server running on port ${config.PORT}`);

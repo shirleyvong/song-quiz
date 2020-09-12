@@ -1,6 +1,6 @@
 const config = require('../utils/config');
 const axios = require('axios');
-const querystring = require('querystring');
+const queryString = require('query-string');
 
 const baseUrl = 'https://api.spotify.com/v1';
 
@@ -72,10 +72,11 @@ const getArtistTopTracks = async (artistId, accessToken) => {
 };
 
 const getAccessToken = async () => {
-  const encodedAuth = Buffer.from(`${config.CLIENT_ID}:${config.CLIENT_SECRET}`).toString('base64');
+  const encodedAuth = Buffer.from(`${config.CLIENT_ID}:${config.CLIENT_SECRET}`)
+    .toString('base64');
 
   const { data } = await axios.post('https://accounts.spotify.com/api/token',
-    querystring.stringify({
+    queryString.stringify({
       grant_type: 'refresh_token',
       refresh_token: config.REFRESH_TOKEN,
     }),

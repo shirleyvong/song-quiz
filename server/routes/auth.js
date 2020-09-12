@@ -1,5 +1,4 @@
 const config = require('../utils/config');
-
 const express = require('express');
 const axios = require('axios');
 const queryString = require('query-string');
@@ -7,9 +6,6 @@ const queryString = require('query-string');
 const router = express.Router();
 
 const REDIRECT_URI = `http://localhost:${config.PORT}/callback`;
-
-let accessToken = '';
-let refreshToken = '';
 
 router.get('/auth', (req, res) => {
   const query = queryString.stringify(
@@ -24,7 +20,6 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/callback', (req, res) => {
-  // Exchange authorization code for access token
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
@@ -38,12 +33,14 @@ router.get('/callback', (req, res) => {
       client_secret: config.CLIENT_SECRET,
       client_id: config.CLIENT_ID,
     }),
-  }).then((response) => {
+  })
+  .then((response) => {
     accessToken = response.data.access_token;
     refreshToken = response.data.refresh_token;
     res.json({ accessToken, refreshToken });
-  }).catch((err) => {
-    console.log('an error occured in callback');
+  })
+  .catch((err) => {
+    console.error(err);
   });
 });
 

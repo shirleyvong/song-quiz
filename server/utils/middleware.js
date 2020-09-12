@@ -1,4 +1,4 @@
-const spotifyAPI = require('../services/spotify');
+const spotifyAPI = require('../services/spotifyAPI');
 
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' });
@@ -11,8 +11,12 @@ const errorHandler = (err, req, res, next) => {
 
 const updateAccessToken = async (req, res, next) => {
   const accessTokenData = req.app.locals.accessToken;
-  const isTokenExpired = !accessTokenData || !accessTokenData.value || Date.now() >= accessTokenData.expires;
-  if (!isTokenExpired) {
+
+  if (
+    accessTokenData
+    && accessTokenData.value
+    && Date.now() < accessTokenData.expires
+  ) {
     next();
   }
 
@@ -25,7 +29,7 @@ const updateAccessToken = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 };
