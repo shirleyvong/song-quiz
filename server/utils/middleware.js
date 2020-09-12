@@ -18,6 +18,7 @@ const updateAccessToken = async (req, res, next) => {
     && Date.now() < accessTokenData.expires
   ) {
     next();
+    return;
   }
 
   try {
