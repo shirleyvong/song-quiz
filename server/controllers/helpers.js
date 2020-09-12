@@ -23,8 +23,17 @@ const getAlbumsByIds = async (albumIds, accessToken) => {
   const results = await Promise.all(promises);
 
   const albumData = results.map((res) => res.albums)
+
   return flatten(albumData);
 };
+
+const removeUnplayableTracks = (tracks) => {
+  // Remove tracks with same track name and tracks without preview urls
+  return tracks.filter((track, pos, arr) => (
+    track.previewUrl
+    && arr.map((obj) => obj.trackName).indexOf(track.trackName) === pos
+  ));
+}
 
 const getTracksByAlbums = async (albums) => {
   let tracks = albums
@@ -34,7 +43,7 @@ const getTracksByAlbums = async (albums) => {
         previewUrl: item.preview_url,
         artists: item.artists.map((artist) => ({
           name: artist.name,
-          id: artist.id 
+          id: artist.id,
         })),
         albumName: item.name,
         albumImages: item.images,
@@ -44,12 +53,7 @@ const getTracksByAlbums = async (albums) => {
     ))
 
   tracks = flatten(tracks);
-
-  tracks.filter((track, pos, arr) => (
-    // Remove tracks with same track name and tracks without preview urls
-    track.previewUrl
-    && arr.map((obj) => obj.trackName).indexOf(track.trackName) === pos
-  ));
+  tracks = removeUnplayableTracks(tracks);
 
   return tracks;
 };

@@ -17,7 +17,7 @@ const getTracksByArtist = async (req, res) => {
 
   try {
     const accessToken = req.app.locals.accessToken.value;
-    
+
     /**
      * Spotify API doesn't have an endpoint for retrieving an artist's
      * tracks, so we need to chain multiple requests.
@@ -26,7 +26,8 @@ const getTracksByArtist = async (req, res) => {
      */
     const albumIds = await helpers.getAlbumIdsByArtist(id, accessToken);
     const albums = await helpers.getAlbumsByIds(albumIds, accessToken);
-    const tracks = await helpers.getTracksByAlbums(albums);
+    let tracks = await helpers.getTracksByAlbums(albums);
+    tracks = helpers.removeUnplayableTracks(tracks);
 
     res.json(tracks);
   } catch (error) {

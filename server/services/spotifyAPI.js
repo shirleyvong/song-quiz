@@ -1,6 +1,6 @@
-const config = require('../utils/config');
 const axios = require('axios');
 const queryString = require('query-string');
+const config = require('../utils/config');
 
 const baseUrl = 'https://api.spotify.com/v1';
 
@@ -89,8 +89,8 @@ const getAccessToken = async () => {
   return {
     accessToken: data.access_token,
     expires: Date.now() + data.expires_in * 1000, // convert to milliseconds
-  }
-}
+  };
+};
 
 module.exports = {
   searchArtist,

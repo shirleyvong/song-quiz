@@ -17,6 +17,7 @@ export const GAME_STATE = {
   IN_PROGRESS: 'IN_PROGRESS',
   DONE: 'DONE',
   ERROR: 'ERROR',
+  UNSUPPORTED_ARTIST: 'UNSUPPORTED_ARTIST',
 };
 
 const initialState = {
@@ -96,6 +97,12 @@ export const createQuestions = () => {
 
     const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
     const { tracks } = getState().game;
+
+    if (tracks.length < NUM_QUESTIONS) {
+      dispatch(setGameState(GAME_STATE.UNSUPPORTED_ARTIST));
+      return;
+    }
+
     const copiedTracks = [...tracks];
     shuffle(copiedTracks);
 
