@@ -53,7 +53,7 @@ const addRecentlyPlayed = async (req, res) => {
 
 const getRecentlyPlayed = async (req, res) => {
   const { redis } = req.app.locals;
-  redis.zrange('recently-played', 0, 9, async (rangeError, rangeResponse) => {
+  redis.zrevrange('recently-played', 0, 9, async (rangeError, rangeResponse) => {
     if (rangeError) throw rangeError;
 
     const accessToken = req.app.locals.accessToken.value;
