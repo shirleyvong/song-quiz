@@ -3,9 +3,9 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
-const redis = require('redis');
 const middleware = require('./utils/middleware');
 const routes = require('./routes/index');
+const store = require('./store');
 
 const app = express();
 
@@ -14,11 +14,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-const redisClient = redis.createClient();
-redisClient.on('error', (error) => {
-  console.error(error);
-});
-app.locals.redis = redisClient;
+app.locals.store = store;
 
 // Only used to get refresh token from Spotify API.
 // const authRoutes = require('./routes/auth');
