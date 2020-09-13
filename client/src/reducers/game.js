@@ -138,6 +138,7 @@ export const createGame = (artistId) => {
       const tracks = await api.getTracks(artistId);
       dispatch(setTracks(tracks));
       dispatch(createQuestions());
+      await api.addRecentlyPlayed(artistId);
     } catch (error) {
       dispatch(setGameState(GAME_STATE.ERROR));
     }
