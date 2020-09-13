@@ -1,7 +1,7 @@
 const spotifyAPI = require('../services/spotifyAPI');
 
 const partition = (array, numPartitions) => {
-  const partitionedArray = []
+  const partitionedArray = [];
   for (let i = 0; i < array.length; i += numPartitions) {
     partitionedArray.push(array.splice(i, i + numPartitions));
   }
@@ -9,31 +9,31 @@ const partition = (array, numPartitions) => {
   return partitionedArray;
 };
 
-const flatten = (array) => {
-  return array.reduce((acc, val) => acc.concat(val), []);
-}
+const flatten = (array) => (
+  array.reduce((acc, val) => acc.concat(val), [])
+);
 
 const getAlbumsByIds = async (albumIds, accessToken) => {
   const MAX_IDS_PER_REQUEST = 20;
   const partitionedAlbumIds = partition(albumIds, MAX_IDS_PER_REQUEST);
 
   const promises = partitionedAlbumIds.map((group) => (
-    spotifyAPI.getAlbumsByIds(group, accessToken))
-  );
+    spotifyAPI.getAlbumsByIds(group, accessToken)
+  ));
   const results = await Promise.all(promises);
 
-  const albumData = results.map((res) => res.albums)
+  const albumData = results.map((res) => res.albums);
 
   return flatten(albumData);
 };
 
-const removeUnplayableTracks = (tracks) => {
+const removeUnplayableTracks = (tracks) => (
   // Remove tracks with same track name and tracks without preview urls
-  return tracks.filter((track, pos, arr) => (
+  tracks.filter((track, pos, arr) => (
     track.previewUrl
     && arr.map((obj) => obj.trackName).indexOf(track.trackName) === pos
-  ));
-}
+  ))
+);
 
 const getTracksByAlbums = async (albums) => {
   let tracks = albums
@@ -50,7 +50,7 @@ const getTracksByAlbums = async (albums) => {
         id: item.id,
         externalUrl: item.external_urls && item.external_urls.spotify || '',
       }))
-    ))
+    ));
 
   tracks = flatten(tracks);
   tracks = removeUnplayableTracks(tracks);
@@ -82,8 +82,8 @@ const getPlayableArtists = async (query, accessToken) => {
   // No endpoint exists for fetching all tracks, so fetch the top 10 tracks
   // for each artist
   const trackData = await Promise.all(artists.map((a) => (
-    spotifyAPI.getArtistTopTracks(a.id, accessToken)))
-  );
+    spotifyAPI.getArtistTopTracks(a.id, accessToken)
+  )));
   const numTracksByArtists = getNumTracksByArtists(trackData);
 
   // NUM_QUESTIONS in game.js on client-side must be less or equal to MIN_TRACKS
@@ -102,7 +102,12 @@ const getPlayableArtists = async (query, accessToken) => {
 
 const getArtistNames = async (ids, accessToken) => {
   const result = await spotifyAPI.getSeveralArtists(ids, accessToken);
-  const artists = result.artists.reduce((obj, item) => ({ ...obj, [item.id]: item.name }), {});
+  const artists = result.artists.map((artist) => ({
+    name: artist.name,
+    id: artist.id,
+    image: artist.images && artist.images[0].url,
+  }));
+
   return artists;
 };
 
