@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
+import RecentArtists from './RecentArtists';
 
 const Search = () => {
   return (
@@ -12,6 +13,7 @@ const Search = () => {
       </Text>
       <h2>find artist</h2>
       <SearchBar />
+      <RecentArtists />
     </Container>
   );
 };
@@ -34,7 +36,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 50vh;
 `;
 
 export default Search;
