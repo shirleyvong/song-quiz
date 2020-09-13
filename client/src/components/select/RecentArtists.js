@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import useAsyncError from '../../hooks/useAsyncError';
-import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import styled from 'styled-components';
 
@@ -26,17 +25,16 @@ const Artist = styled.a`
 
   &:hover {
     border: 1px solid rgb(255, 255, 255, 1);
-    ${'' /* text-decoration; */}
   }
 `;
 
 const BlankImage = styled.div`
   height: 150px;
   width: 150px;
+  background-color; rgb(0, 0, 0, 0.1);
 `;
 
 const RecentArtists = () => {
-  const history = useHistory();
   const throwError = useAsyncError();
   const [recentArtists, setRecentArtists] = useState([]);
 
@@ -52,11 +50,7 @@ const RecentArtists = () => {
       });
   }, []);
 
-  const selectArtist = (id) => () => {
-    history.push(`/game/${id}`)
-  };
-
-  return (
+  return recentArtists.length > 0 && (
     <Container>
       <h1>Recently played</h1>
       <ArtistContainer>
@@ -74,7 +68,7 @@ const RecentArtists = () => {
         }
       </ArtistContainer>
     </Container>
-  )
+  );
 };
 
 export default RecentArtists;
