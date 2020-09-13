@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { GrSearch } from 'react-icons/gr';
 
-const SearchBar = () => {
+const Search = () => {
   const history = useHistory();
 
   const [input, setInput] = useState('');
@@ -20,6 +20,7 @@ const SearchBar = () => {
 
   return (
     <Container>
+      <h1>Search artist</h1>
       <Form>
         <Input onChange={handleInputChange} placeholder="Enter an artist..." value={input} />
         <Button type="submit" onClick={handleButtonClick}><GrSearch /></Button>
@@ -30,7 +31,6 @@ const SearchBar = () => {
 
 const Container = styled.div`
   width: 100%;
-  max-width: 500px;
 `;
 
 const Form = styled.form`
@@ -69,4 +69,4 @@ const Button = styled.button`
   }
 `;
 
-export default SearchBar;
+export default Search;

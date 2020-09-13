@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchBar from './SearchBar';
+import SearchBar from './Search';
 import RecentArtists from './RecentArtists';
 
-const Search = () => {
+const Select = () => {
   return (
     <Container>
       <Text>
         <Title>🎹</Title>
-        <Title>melody</Title>
-        <p>test your knowledge of music by your favourite artists</p>
+        <Title>Melody</Title>
+        <p>Test your knowledge of music by your favourite artists</p>
       </Text>
-      <h2>find artist</h2>
       <SearchBar />
       <RecentArtists />
     </Container>
@@ -20,6 +19,7 @@ const Search = () => {
 
 const Title = styled.h1`
   margin-bottom: 0px;
+  text-transform: lowercase;
 `;
 
 const Text = styled.div`
@@ -36,6 +36,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 800px;
 `;
 
-export default Search;
+export default Select;

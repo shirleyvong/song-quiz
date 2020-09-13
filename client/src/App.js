@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import SearchResults from './components/searchResults/SearchResults';
 import Game from './components/game/Game';
-import Search from './components/search/Search';
+import Search from './components/select/Select';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
