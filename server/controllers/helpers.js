@@ -100,9 +100,17 @@ const getPlayableArtists = async (query, accessToken) => {
   return playableArtists;
 };
 
+const getArtistNames = async (ids, accessToken) => {
+  const result = await spotifyAPI.getSeveralArtists(ids, accessToken);
+  const artists = result.artists.reduce((obj, item) => ({ ...obj, [item.id]: item.name }), {});
+  return artists;
+};
+
 module.exports = {
   getAlbumIdsByArtist,
   getAlbumsByIds,
   getTracksByAlbums,
   getPlayableArtists,
+  getArtistNames,
+  removeUnplayableTracks,
 };

@@ -92,10 +92,27 @@ const getAccessToken = async () => {
   };
 };
 
+const getSeveralArtists = async (ids, accessToken) => {
+  const formattedIds = JSON.stringify(ids).replace(/\[|\]|"/g, '');
+
+  const { data } = await axios.get(`${baseUrl}/artists`,
+    {
+      params: {
+        ids: formattedIds,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+  return data;
+};
+
 module.exports = {
   searchArtist,
   getAlbumsByIds,
   getAlbumIdsByArtist,
   getArtistTopTracks,
   getAccessToken,
+  getSeveralArtists,
 };

@@ -35,7 +35,37 @@ const getTracksByArtist = async (req, res) => {
   }
 };
 
+const addRecentlyPlayed = async (req, res) => {
+  const { id } = req.body;
+  if (!id) {
+    throw new Error('Request body must contain id');
+  }
+
+  const { redis } = req.app.locals;
+  redis.zadd('recently-played', Date.now(), id, (addError, addResponse) => {
+    if (addError) throw addError;
+
+    redis.zremrangebyrank('recently-played', 0, -11);
+
+    res.json({ id });
+  });
+};
+
+const getRecentlyPlayed = async (req, res) => {
+  const { redis } = req.app.locals;
+  redis.zrange('recently-played', 0, 9, async (rangeError, rangeResponse) => {
+    if (rangeError) throw rangeError;
+
+    const accessToken = req.app.locals.accessToken.value;
+    const data = await helpers.getArtistNames(rangeResponse, accessToken);
+
+    res.json(data);
+  });
+};
+
 module.exports = {
   searchArtist,
   getTracksByArtist,
+  addRecentlyPlayed,
+  getRecentlyPlayed,
 };
