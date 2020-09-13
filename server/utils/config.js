@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const {
-  CLIENT_ID, CLIENT_SECRET, PORT, REFRESH_TOKEN,
+  CLIENT_ID, CLIENT_SECRET, PORT, REFRESH_TOKEN, REDIS_HOST, REDIS_PORT, REDIS_PASSWORD,
 } = process.env;
 
 module.exports = {
@@ -9,4 +9,7 @@ module.exports = {
   CLIENT_SECRET,
   PORT,
   REFRESH_TOKEN,
+  REDIS_HOST,
+  REDIS_PORT,
+  REDIS_PASSWORD,
 };
