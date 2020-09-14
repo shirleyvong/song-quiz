@@ -67,7 +67,7 @@ const getAlbumIdsByArtist = async (artistId, accessToken) => {
 const getNumTracksByArtists = (trackData) => {
   const numTracksByArtist = {};
   trackData.forEach((item) => {
-    item.tracks = item.tracks.filter((track) => !!track.preview_url);
+    item.tracks = removeUnplayableTracks(item.tracks);
     numTracksByArtist[item.artistId] = item.tracks.length;
   });
 
@@ -86,8 +86,7 @@ const getPlayableArtists = async (query, accessToken) => {
   )));
   const numTracksByArtists = getNumTracksByArtists(trackData);
 
-  // NUM_QUESTIONS in game.js on client-side must be less or equal to MIN_TRACKS
-  const MIN_TRACKS = 5;
+  const MIN_TRACKS = 10;
 
   const playableArtists = artists
     .filter((artist) => numTracksByArtists[artist.id] >= MIN_TRACKS)

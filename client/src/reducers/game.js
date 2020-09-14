@@ -1,7 +1,7 @@
 import shuffle from 'knuth-shuffle-seeded';
 import api from '../services/api';
 
-// NUM_QUESTIONS must be less or equal to than MIN_TRACKS in helpers.js on server-side
+const MIN_TRACKS = 10;
 const NUM_QUESTIONS = 5;
 const CHOICES_PER_QUESTION = 4;
 
@@ -95,33 +95,34 @@ export const createQuestions = () => {
   return async (dispatch, getState) => {
     dispatch(setGameState(GAME_STATE.LOADING));
 
-    const getRandomIndex = (maxNum) => Math.floor(Math.random() * maxNum - 1) + 1;
     const { tracks } = getState().game;
-
-    if (tracks.length < NUM_QUESTIONS) {
+    if (tracks.length < MIN_TRACKS) {
       dispatch(setGameState(GAME_STATE.UNSUPPORTED_ARTIST));
       return;
     }
 
     const copiedTracks = [...tracks];
     shuffle(copiedTracks);
-
     const questions = [];
+
     for (let i = 0; i < NUM_QUESTIONS; i++) {
-      const choices = [];
-      for (let j = 0; j < CHOICES_PER_QUESTION; j++) {
-        const idx = i * CHOICES_PER_QUESTION + j;
-        choices.push(copiedTracks[idx]);
+      const track = copiedTracks.pop();
+      questions.push({
+        songUrl: track.previewUrl,
+        correctId: track.id,
+        choices: [track],
+      });
+    }
+
+    let tracksIdx = 0;
+    for (let i = 0; i < NUM_QUESTIONS; i++) {
+      for (let j = 0; j < CHOICES_PER_QUESTION - 1; j++) {
+        questions[i].choices.push(copiedTracks[tracksIdx]);
+        if (++tracksIdx >= copiedTracks.length) {
+          tracksIdx = 0;
+        }
       }
-
-      const randIdx = getRandomIndex(CHOICES_PER_QUESTION);
-      const q = {
-        songUrl: choices[randIdx].previewUrl,
-        correctId: choices[randIdx].id,
-        choices,
-      };
-
-      questions.push(q);
+      shuffle(questions[i].choices);
     }
 
     dispatch(setQuestions(questions));
@@ -155,6 +156,8 @@ export const finishQuestion = () => {
     }
   };
 };
+
+
 
 export const replayGame = () => {
   return async (dispatch) => {

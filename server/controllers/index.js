@@ -26,8 +26,7 @@ const getTracksByArtist = async (req, res) => {
      */
     const albumIds = await helpers.getAlbumIdsByArtist(id, accessToken);
     const albums = await helpers.getAlbumsByIds(albumIds, accessToken);
-    let tracks = await helpers.getTracksByAlbums(albums);
-    tracks = helpers.removeUnplayableTracks(tracks);
+    const tracks = await helpers.getTracksByAlbums(albums);
 
     res.json(tracks);
   } catch (error) {
