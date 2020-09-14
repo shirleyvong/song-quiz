@@ -24,7 +24,7 @@ const SearchResults = () => {
       .catch((error) => {
         throwError('Error fetching search from API');
       });
-  }, []);
+  }, [query, throwError]);
 
   const handleSearchAgain = (event) => {
     event.preventDefault();

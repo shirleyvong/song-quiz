@@ -50,7 +50,7 @@ const RecentArtists = () => {
       .catch((error) => {
         throwError('Error fetching recent artists from API');
       });
-  }, []);
+  }, [throwError]);
 
   return recentArtists.length > 0 && (
     <Container>

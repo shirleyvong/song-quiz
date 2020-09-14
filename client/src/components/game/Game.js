@@ -15,7 +15,7 @@ const Game = () => {
 
   useEffect(() => {
     dispatch(createGame(id));
-  }, []);
+  }, [dispatch, id]);
 
   const selectNewArtist = () => {
     history.push('/');

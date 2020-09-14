@@ -4,6 +4,7 @@ import ListItem from './ListItem';
 const List = ({ items, handleItemSelect }) => (
   items.map((item) => (
     <ListItem
+      key={item.id}
       id={item.id}
       image={item.images[0]}
       name={item.name}

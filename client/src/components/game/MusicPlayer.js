@@ -46,14 +46,14 @@ const MusicPlayer = ({ url }) => {
       setAudio(new Audio(url));
       latestUrl.current = url;
     }
-  }, [url, audio]);
+  }, [url, audio, handleAudio]);
 
   useEffect(() => {
     latestAudio.current = audio;
     audio.addEventListener('ended', handleAudio);
     audio.addEventListener('pause', handleAudio);
     audio.addEventListener('play', handleAudio);
-  }, [audio]);
+  }, [audio, handleAudio]);
 
   useEffect(() => {
     return () => {

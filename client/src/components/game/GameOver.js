@@ -40,8 +40,8 @@ const GameOver = () => {
       Featured songs:
       <ol>
         {trackList.map((track) => (
-          <li>
-            <Link href={track.externalUrl} target="_blank" rel="noreferrer">{track.name}</Link>
+          <li key={track.externalUrl}>
+            <Link  href={track.externalUrl} target="_blank" rel="noreferrer">{track.name}</Link>
           </li>
         ))}
       </ol>
