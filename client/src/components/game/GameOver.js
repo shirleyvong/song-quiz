@@ -54,7 +54,7 @@ const GameOver = () => {
 };
 
 const Link = styled.a`
-  color: #333333;
+  color: white;
 `;
 
 const Container = styled.div`

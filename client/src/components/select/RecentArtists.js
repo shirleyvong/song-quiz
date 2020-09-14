@@ -12,9 +12,11 @@ const Image = styled.img`
 const ArtistContainer = styled.div`
   text-align: center;
   display: flex;
+  justify-content: center;
 `;
 
 const Container = styled.div`
+  text-align: center;
 `
 
 const Artist = styled.a`

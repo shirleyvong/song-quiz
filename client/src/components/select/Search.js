@@ -30,16 +30,19 @@ const Search = () => {
 };
 
 const Container = styled.div`
+  text-align: center;
   width: 100%;
 `;
 
 const Form = styled.form`
   display: flex;
+  justify-content: center;
 `;
 
 const Input = styled.input`
   height: 20px;
   width: 100%;
+  max-width: 600px;
   padding: 10px 20px;
   border: 0px;
   border-radius: 500px 0 0 500px;
